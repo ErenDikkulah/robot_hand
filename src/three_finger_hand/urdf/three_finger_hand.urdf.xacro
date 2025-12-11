@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="three_finger_hand">
+
+  <xacro:include filename="$(find three_finger_hand)/urdf/finger.xacro"/>
+
+  <link name="world"/>
+
+  <joint name="fixed_base" type="fixed">
+    <parent link="world"/>
+    <child link="palm"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <link name="palm">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://three_finger_hand/meshes/palm.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey">
+        <color rgba="0.2 0.2 0.2 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://three_finger_hand/meshes/palm.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <xacro:finger prefix="finger_1" parent="palm">
+    <origin xyz="0.05 0 0.02" rpy="0 0 0"/>
+  </xacro:finger>
+
+  <xacro:finger prefix="finger_2" parent="palm">
+    <origin xyz="-0.025 0.043 0.02" rpy="0 0 2.0944"/>
+  </xacro:finger>
+
+  <xacro:finger prefix="finger_3" parent="palm">
+    <origin xyz="-0.025 -0.043 0.02" rpy="0 0 -2.0944"/>
+  </xacro:finger>
+
+</robot>
