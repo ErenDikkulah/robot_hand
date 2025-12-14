@@ -27,6 +27,36 @@ JOINT_LIMITS = {
     'finger_3_joint_4': (-1.5, 1.5)
 }
 
+JOINT_POSITIONS_FOR_2_FINGER_PINCH = {
+    'finger_1_joint_1': 0.0,
+    'finger_1_joint_2': -0.3,
+    'finger_1_joint_3': -0.75,
+    'finger_1_joint_4': -0.75,
+    'finger_2_joint_1': 0.0,
+    'finger_2_joint_2': -0.3,
+    'finger_2_joint_3': -0.75,
+    'finger_2_joint_4': -0.75,
+    'finger_3_joint_1': 0.0,
+    'finger_3_joint_2': -0.61,
+    'finger_3_joint_3': -1.24,
+    'finger_3_joint_4': -1.5
+}
+
+JOINT_POSITIONS_FOR_3_FINGER_PINCH = {
+    'finger_1_joint_1': 0.0,
+    'finger_1_joint_2': -0.3,
+    'finger_1_joint_3': -0.6,
+    'finger_1_joint_4': -0.75,
+    'finger_2_joint_1': 0.0,
+    'finger_2_joint_2': -0.3,
+    'finger_2_joint_3': -0.6,
+    'finger_2_joint_4': -0.75,
+    'finger_3_joint_1': 0.0,
+    'finger_3_joint_2': -0.3,
+    'finger_3_joint_3': -0.6,
+    'finger_3_joint_4': -0.75
+}
+
 class HandControlGUI(Node):
     def __init__(self):
         super().__init__('hand_control_gui')
@@ -41,7 +71,7 @@ class HandControlGUI(Node):
 
         self.root = tk.Tk()
         self.root.title("Control Panel")
-        self.root.geometry("400x730")
+        self.root.geometry("400x900")
 
         self.sliders = []
         for i, joint_name in enumerate(JOINT_ORDER):
@@ -64,6 +94,15 @@ class HandControlGUI(Node):
 
         btn_random = tk.Button(self.root, text="Random", command=self.random_positions, bg="blue", fg="white")
         btn_random.pack(pady=8)
+
+        btn_close_hand = tk.Button(self.root, text="Close hand", command=self.close_fingers, bg="green", fg="white")
+        btn_close_hand.pack(pady=8)
+
+        btn_two_finger_pinch = tk.Button(self.root, text="Two finger pinch", command=self.two_finger_pinch, bg="purple", fg="white")
+        btn_two_finger_pinch.pack(pady=8)
+
+        btn_three_finger_pinch = tk.Button(self.root, text="Three finger pinch", command=self.three_finger_pinch, bg="orange", fg="white")
+        btn_three_finger_pinch.pack(pady=8)
 
         self.root.after(10, self.loop_ros)
         self.root.mainloop()
@@ -93,6 +132,27 @@ class HandControlGUI(Node):
             rand_value = random.uniform(min_limit, max_limit)
             self.sliders[i].set(rand_value)
             self.joint_positions[i] = rand_value
+        self.publish_commands()
+
+    def close_fingers(self):
+        for i, joint_name in enumerate(JOINT_ORDER):
+            min_limit, max_limit = JOINT_LIMITS[joint_name]
+            self.sliders[i].set(min_limit)
+            self.joint_positions[i] = min_limit
+        self.publish_commands()
+
+    def two_finger_pinch(self):
+        for i, joint_name in enumerate(JOINT_ORDER):
+            positions = JOINT_POSITIONS_FOR_2_FINGER_PINCH[joint_name]
+            self.sliders[i].set(positions)
+            self.joint_positions[i] = positions
+        self.publish_commands()
+
+    def three_finger_pinch(self):
+        for i, joint_name in enumerate(JOINT_ORDER):
+            positions = JOINT_POSITIONS_FOR_3_FINGER_PINCH[joint_name]
+            self.sliders[i].set(positions)
+            self.joint_positions[i] = positions
         self.publish_commands()
 
 def main():
