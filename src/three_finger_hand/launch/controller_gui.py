@@ -4,6 +4,7 @@ from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
 import tkinter as tk
 from tkinter import ttk
+import random
 
 JOINT_ORDER = [
     'finger_1_joint_1', 'finger_1_joint_2', 'finger_1_joint_3', 'finger_1_joint_4',
@@ -40,7 +41,7 @@ class HandControlGUI(Node):
 
         self.root = tk.Tk()
         self.root.title("Control Panel")
-        self.root.geometry("400x700")
+        self.root.geometry("400x730")
 
         self.sliders = []
         for i, joint_name in enumerate(JOINT_ORDER):
@@ -59,7 +60,10 @@ class HandControlGUI(Node):
             self.sliders.append(slider)
 
         btn_reset = tk.Button(self.root, text="Reset", command=self.reset_all, bg="red", fg="white")
-        btn_reset.pack(pady=20)
+        btn_reset.pack(pady=8)
+
+        btn_random = tk.Button(self.root, text="Random", command=self.random_positions, bg="blue", fg="white")
+        btn_random.pack(pady=8)
 
         self.root.after(10, self.loop_ros)
         self.root.mainloop()
@@ -82,6 +86,14 @@ class HandControlGUI(Node):
     def loop_ros(self):
         rclpy.spin_once(self, timeout_sec=0)
         self.root.after(10, self.loop_ros)
+
+    def random_positions(self):
+        for i, joint_name in enumerate(JOINT_ORDER):
+            min_limit, max_limit = JOINT_LIMITS[joint_name]
+            rand_value = random.uniform(min_limit, max_limit)
+            self.sliders[i].set(rand_value)
+            self.joint_positions[i] = rand_value
+        self.publish_commands()
 
 def main():
     rclpy.init()
