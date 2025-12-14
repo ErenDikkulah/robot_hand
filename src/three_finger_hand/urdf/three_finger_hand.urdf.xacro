@@ -28,7 +28,7 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="0.5"/>
+      <mass value="0.7"/>
       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
     </inertial>
   </link>
@@ -58,64 +58,100 @@
     </hardware>
 
     <joint name="finger_1_joint_1">
-      <command_interface name="position"><param name="min">-1.57</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_1_joint_2">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-0.628</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_1_joint_3">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_1_joint_4">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.57</param>
+        <param name="max">1.57</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
 
     <joint name="finger_2_joint_1">
-      <command_interface name="position"><param name="min">-1.57</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_2_joint_2">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-0.628</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_2_joint_3">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position"> 
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_2_joint_4">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.57</param>
+        <param name="max">1.57</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
 
     <joint name="finger_3_joint_1">
-      <command_interface name="position"><param name="min">-1.57</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_3_joint_2">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-0.628</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_3_joint_3">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.256</param>
+        <param name="max">1.256</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
     <joint name="finger_3_joint_4">
-      <command_interface name="position"><param name="min">0.0</param><param name="max">1.57</param></command_interface>
+      <command_interface name="position">
+        <param name="min">-1.57</param>
+        <param name="max">1.57</param>
+      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
