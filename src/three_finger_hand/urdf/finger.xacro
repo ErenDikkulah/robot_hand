@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="finger" params="prefix parent *origin">
+
+    <joint name="${prefix}_joint_1" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${prefix}_knuckle"/>
+      <xacro:insert_block name="origin"/>
+      <axis xyz="1 0 0"/> <limit lower="-1.256" upper="1.256" effort="10" velocity="1.0"/>
+      <damping value="0.5"/>
+      <dynamics friction="0.5"/>
+    </joint>
+
+    <link name="${prefix}_knuckle">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_knuckle.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="grey">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_knuckle.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.03"/>
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_joint_2" type="revolute">
+      <parent link="${prefix}_knuckle"/>
+      <child link="${prefix}_proximal"/>
+      <origin xyz="0 0 0.01025" rpy="0 0 1.57"/> 
+      <axis xyz="1 0 0"/> <limit lower="-0.628" upper="1.256" effort="10" velocity="1.0"/>
+      <damping value="0.5"/>
+      <dynamics friction="0.5"/>
+    </joint>
+
+    <link name="${prefix}_proximal">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_proximal.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+           <mesh filename="package://three_finger_hand/meshes/finger_proximal.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.05"/>
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_joint_3" type="revolute">
+      <parent link="${prefix}_proximal"/>
+      <child link="${prefix}_middle"/>
+      <origin xyz="0 0 0.07" rpy="0 0 -1.57"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-1.256" upper="1.256" effort="10" velocity="1.0"/>
+      <damping value="0.5"/>
+      <dynamics friction="0.5"/>
+    </joint>
+
+    <link name="${prefix}_middle">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_middle.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_middle.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.04"/>
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_joint_4" type="revolute">
+      <parent link="${prefix}_middle"/>
+      <child link="${prefix}_distal"/>
+      <origin xyz="0 0 0.07" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+      <damping value="0.5"/>
+      <dynamics friction="0.5"/>
+    </joint>
+
+    <link name="${prefix}_distal">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_distal.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://three_finger_hand/meshes/finger_distal.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.02"/>
+        <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+      </inertial>
+    </link>
+
+  </xacro:macro>
+</robot>
