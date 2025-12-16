@@ -19,8 +19,8 @@ source install/setup.bash
 colcon build # Run if skipped Terminal 1
 ros2 launch three_finger_hand simulation.launch.py
 
-# Terminal 3 (To manage the robot using GUI)
-cd src/three_finger_hand/launch/controller_gui.py
+# Terminal 3 (To drive the robot using GUI)
+python3 src/three_finger_hand/launch/controller_gui.py
 ```
 
 ## Data and media related to the robot
@@ -39,6 +39,6 @@ You can find related Fusion files in the ```parts``` folder, and STL files in th
 
 [![Demo movement video](../media/screenshot%20from%20gazebo%20sim%20and%20control%20ui.png)](../media/screencast%20from%20gazebo%20sim.mp4)
 
-* Photo from a finger in Fusion
+* Photo from the robot in Fusion
 
 ![Photo from Fusion](../media/finger%20in%20fusion.jpeg)
