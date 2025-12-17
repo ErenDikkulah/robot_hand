@@ -10,13 +10,13 @@ After cloning project, and being sure installing required programs, go to the pr
 
 ```bash
 # Terminal 1 (To view in RViz, optional)
-source install/setup.bash
 colcon build # 1-time-required, additionally required after editing
+source install/setup.bash
 ros2 launch three_finger_hand display.launch.py # Opens config.rviz automatically
 
 # Terminal 2 (To simulate in Gazebo)
-source install/setup.bash
 colcon build # Run if skipped Terminal 1
+source install/setup.bash
 ros2 launch three_finger_hand simulation.launch.py
 
 # Terminal 3 (To drive the robot using GUI)

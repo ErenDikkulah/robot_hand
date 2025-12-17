@@ -2,8 +2,7 @@
 
 **Project:** ENRO — Robotics R&D  
 **Assigned to:** Eren  
-**Reviewed by:** Emre / Team Lead  
-**Date:** 09.12.2025
+**Reviewed by:** Emre / Team Lead
 
 ![Closed hand](assets/media/closed%20hand.png)
 
