@@ -2,6 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import String
 from geometry_msgs.msg import Point
 import tkinter as tk
 from tkinter import ttk
@@ -88,9 +89,15 @@ class HandControlGUI(Node):
         tk.Label(ik_frame, text="Z:").pack(side="left")
         self.ent_z = tk.Entry(ik_frame, width=5); self.ent_z.insert(0, "0.19"); self.ent_z.pack(side="left", padx=2)
 
+        # IK status display
+        self.ik_status = tk.StringVar(value="")
+        tk.Label(ik_frame, textvariable=self.ik_status, fg="red", wraplength=320, justify="left").pack(pady=4, anchor="w")
+
         btn_solve_ik = tk.Button(self.root, text="Solve IK & Move", command=self.send_ik_goal, bg="black", fg="white")
         btn_solve_ik.pack(pady=5)
         # -----------------------------------------------
+
+        self.create_subscription(String, '/ik_solver/status', self.on_ik_status, 10)
 
         self.root.after(10, self.loop_ros)
         self.root.mainloop()
@@ -115,6 +122,10 @@ class HandControlGUI(Node):
             slider.set(0.0)
         self.joint_positions = [0.0] * 12
         self.publish_commands()
+
+    def on_ik_status(self, msg):
+        # Show latest IK status/warning in the IK panel
+        self.ik_status.set(msg.data)
 
     def publish_commands(self):
         msg = Float64MultiArray()

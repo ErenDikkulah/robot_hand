@@ -8,6 +8,7 @@ import subprocess
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import String
 from geometry_msgs.msg import Point
 import ikpy.chain
 import numpy as np
@@ -35,6 +36,7 @@ class IKSolverNode(Node):
             print(f"{name} chain loaded with {len(chain.links)} links.")
 
         self.publisher_ = self.create_publisher(Float64MultiArray, '/forward_position_controller/commands', 10)
+        self.status_pub = self.create_publisher(String, '/ik_solver/status', 10)
         # Track latest commanded joint state so IK updates stay in sync with GUI actions like reset
         self.create_subscription(Float64MultiArray, '/forward_position_controller/commands', self.update_joint_state, 10)
         
@@ -67,6 +69,9 @@ class IKSolverNode(Node):
 
             if error > 0.01:
                 self.get_logger().warn(f"Target UNREACHABLE for {finger_name}! Error distance: {error:.4f}m")
+                warn_msg = String()
+                warn_msg.data = f"Unreachable target"
+                self.status_pub.publish(warn_msg)
                 return
 
             new_angles = ik_angles[1:5].tolist()
@@ -77,10 +82,18 @@ class IKSolverNode(Node):
             cmd = Float64MultiArray()
             cmd.data = self.joint_state
             self.publisher_.publish(cmd)
+
+            ok_msg = String()
+            ok_msg.data = "" # Clear any previous warnings
+            self.status_pub.publish(ok_msg)
+
             print(f"[{finger_name}] Move command sent. Precision: {error:.5f}m")
 
         except Exception as e:
             self.get_logger().error(f"IK Calculation Error for {finger_name}: {e}")
+            err_msg = String()
+            err_msg.data = "Unreachable target"
+            self.status_pub.publish(err_msg)
 
 def main():
     try:
