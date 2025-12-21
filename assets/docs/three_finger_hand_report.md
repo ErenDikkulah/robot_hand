@@ -18,7 +18,7 @@ colcon build
 cd src/three_finger_hand/launch
 python3 -m venv .venv # Choosing ".venv" name is recommended to avoid gitignore problems
 source .venv/bin/activate
-pip install ikpy jinja2 markupsafe mpmath numpy scipy setuptools sympy typeguard yaml
+pip install PyYAML setuptools jinja2 typeguard numpy ikpy
 ```
 
 ### Starting RViz to preview the robot
@@ -47,6 +47,12 @@ source install/setup.bash
 cd src/three_finger_hand/launch
 source .venv/bin/activate
 python3 ik_solver_node.py
+```
+
+IK solver could be run with GUI. Also could be run with a command like below.
+
+```bash
+ros2 topic pub --once /finger_1/goal_pose geometry_msgs/msg/Point "{x: 0.045, y: 0.015, z: 0.19}"
 ```
 
 ### Opening GUI
