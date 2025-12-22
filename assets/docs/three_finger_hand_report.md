@@ -87,6 +87,10 @@ You can find related Fusion files in the ```parts``` folder, and STL files in th
 
 [![Demo IK video](../media/screenshot%20from%20gazebo%20sim%20and%20control%20ui.png)](../media/screencast%20from%20gazebo%20sim%20and%20ik.mp4)
 
+* Video from Gazebo Sim showing circular IK capabilities
+
+[![Demo circular IK video](../media/screenshot%20from%20circular%20ik%20demo.png)](../media/screencast%20from%20circular%20ik%20demo.mp4)
+
 * Photo from the robot in Fusion
 
 ![Photo from Fusion](../media/finger%20in%20fusion.jpeg)
