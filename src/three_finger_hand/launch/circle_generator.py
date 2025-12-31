@@ -17,9 +17,9 @@ def generate_circle_points(center, normal, radius, N):
     return np.array(points)
 
 if __name__ == "__main__":
-    center = [0.04, 0.0, 0.03]
+    center = [-0.02845557, 0.04310951, 0.12971483]
     normal = [0, 0, 1]
-    radius = 0.03
+    radius = 0.001
     N = 50
 
     waypoints = generate_circle_points(center, normal, radius, N)
