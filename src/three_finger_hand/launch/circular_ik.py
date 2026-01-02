@@ -76,7 +76,7 @@ def run_circular_ik():
             full_cmd[start: start + 4] = ik_res[1:5].tolist()
         trajectory_12dof.append(full_cmd)
 
-    success_rate = (success_count / len(waypoints)) * 100
+    success_rate = (success_count / (len(waypoints) * 3)) * 100
     print(f"\nCompleted: Success Rate %{success_rate:.2f}")
 
     if success_count > 0:
