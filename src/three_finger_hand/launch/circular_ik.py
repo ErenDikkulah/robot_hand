@@ -22,48 +22,58 @@ def run_circular_ik():
     urdf_path = "/tmp/circular_hand_debug.urdf"
     waypoints = np.load('src/waypoints.npy')
 
-    # Load Chain and Mask Fixed Joints
-    chain = ikpy.chain.Chain.from_urdf_file(urdf_path, base_elements=["palm"], name="finger_1")
+    # Load all chains
+    chains = {
+        'f1': ikpy.chain.Chain.from_urdf_file(urdf_path, base_elements=["palm"], name="finger_1"),
+        'f2': ikpy.chain.Chain.from_urdf_file(urdf_path, base_elements=["palm"], name="finger_2"),
+        'f3': ikpy.chain.Chain.from_urdf_file(urdf_path, base_elements=["palm"], name="finger_3")
+    }
 
-    # Check total number of links in the chain
-    n_links = len(chain.links)
-    active_mask = [False] * n_links
-    for i in range(1, n_links - 1):
-        active_mask[i] = True
-    chain.active_links_mask = active_mask
+    # Mask chains to only move finger joints
+    for c in chains.values():
+        mask = [False] * len(c.links)
+        for i in range(1, len(c.links) - 1): mask[i] = True
+        c.active_links_mask = mask
 
-    print(f"Chain Structure: {[link.name for link in chain.links]}")
-    print(f"Active Joint Mask: {chain.active_links_mask}")
+    for finger, chain in chains.items():
+        n_links = len(chain.links)
+        print(f"\n{finger.upper()} Chain Info:")
+        print(f"Chain Structure: {[link.name for link in chain.links]}")
+        print(f"Active Joint Mask: {chain.active_links_mask}")
 
     trajectory_12dof = []
-    last_ik_res = [0.0] * n_links
+    # last_ik_res = [0.0] * n_links
     success_count = 0
+    last_results = {k: [0.0] * len(v.links) for k, v in chains.items()}
 
     print("\nCalculation started...")
     for i, target in enumerate(waypoints):
-        # IK Solution
-        ik_res = chain.inverse_kinematics(target, initial_position=last_ik_res)
-
-        # Verification with FK
-        computed_pos = chain.forward_kinematics(ik_res)[:3, 3]
-        dist = np.linalg.norm(target - computed_pos)
-
-        # Error analysis for the first point
-        if i == 0:
-            print(f"First Point Analysis:")
-            print(f"  Target: {target}")
-            print(f"  Reached: {computed_pos}")
-            print(f"  Distance Error: {dist:.4f}m")
-
-        # 1 cm tolerance
-        if dist < 0.01:
-            success_count += 1
-            last_ik_res = ik_res
-
-        # 12-DOF Packaging
         full_cmd = [0.0] * 12
-        # Make sure ik_res[1:5] corresponds to your movable joints
-        full_cmd[0:4] = ik_res[1:5].tolist()
+
+        # IK Solution
+        for f_idx, (key, chain) in enumerate(chains.items()):
+            ik_res = chain.inverse_kinematics(target, initial_position=last_results[key])
+            last_results[key] = ik_res
+
+            # Verification with FK
+            computed_pos = chain.forward_kinematics(ik_res)[:3, 3]
+            dist = np.linalg.norm(target - computed_pos)
+
+            # Error analysis for the first point
+            if i == 0:
+                print(f"First Point Analysis for {key}:")
+                print(f"  Target: {target}")
+                print(f"  Reached: {computed_pos}")
+                print(f"  Distance Error: {dist:.4f}m")
+
+            # 1 cm tolerance
+            if dist < 0.01:
+                success_count += 1
+                last_results[key] = ik_res
+
+            # 12-DOF Packaging
+            start = f_idx * 4
+            full_cmd[start: start + 4] = ik_res[1:5].tolist()
         trajectory_12dof.append(full_cmd)
 
     success_rate = (success_count / len(waypoints)) * 100
