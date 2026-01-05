@@ -28,6 +28,8 @@ def visualize_circle(points, center, normal):
     plt.show()
 
 if __name__ == "__main__":
+    # Sample appropriate parameters, please preview by running
+    # waypoint_visualiser.py to be sure the circle looks correct
     center = [0.0, 0.0, 0.19]
     normal = [0, 0, 1]
     radius = 0.06
